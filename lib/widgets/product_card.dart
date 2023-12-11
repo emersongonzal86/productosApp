@@ -18,15 +18,14 @@ class ProductCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
-            _BackgroundImage( product.picture ),
+            _BackgroundImage(product.picture),
             _ProductDetails(
               title: product.name,
               subtitle: product.id!,
             ),
-            Positioned(top: 0, right: 0, child: _PriceTag( product.price)),
-
-           if( !product.available )
-            Positioned(top: 0, left: 0, child: _NotAvailable())
+            Positioned(top: 0, right: 0, child: _PriceTag(product.price)),
+            if (!product.available)
+              Positioned(top: 0, left: 0, child: _NotAvailable())
           ],
         ),
       ),
@@ -68,10 +67,10 @@ class _NotAvailable extends StatelessWidget {
 
 class _PriceTag extends StatelessWidget {
   const _PriceTag(
-      this.price,
+    this.price,
   );
 
-final double price;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,7 @@ final double price;
         fit: BoxFit.contain,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          // \$ se usa para escapar el simbolo $ del numero del precio 
+          // \$ se usa para escapar el simbolo $ del numero del precio
           child: Text('\$$price',
               style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
@@ -98,7 +97,9 @@ final double price;
 
 class _ProductDetails extends StatelessWidget {
   const _ProductDetails({
-    super.key, required this.title, required this.subtitle,
+    super.key,
+    required this.title,
+    required this.subtitle,
   });
 
   final String title;
@@ -155,12 +156,13 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-          //TODO: Fix productos cuando no hay imagen
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage(url!),
-          fit: BoxFit.cover,
-        ),
+        child: url == null
+            ? Image(image: AssetImage('assets/no-image.png'), fit: BoxFit.cover)
+            : FadeInImage(
+                placeholder: AssetImage('assets/jar-loading.gif'),
+                image: NetworkImage(url!),
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }
