@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-varios-a20a2-default-rtdb.firebaseio.com';
   final List<Product> products = [];
+  late Product selectedProduct;
   //para saber si esta cargando los datos inicia en true porque inicia cargando datos
   //no se coloca final por que va esta variando entre true y false
   bool isLoading = true;
