@@ -11,6 +11,11 @@ class ProductFormProvider extends ChangeNotifier{
 //modificaciones al mismo elemento ya que todos los elementos pasan por referencia
   ProductFormProvider( this.product);
 
+  updateAvailability( bool value ){
+    this.product.available = value;
+    notifyListeners();
+  }
+
   bool isValidForm(){
     return formKey.currentState?.validate() ?? false;
   }
