@@ -6,13 +6,11 @@ import 'package:productos_app/services/services.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 
-
 class ProductScreen extends StatelessWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final productService = Provider.of<ProductsService>(context);
 
     return Scaffold(
@@ -21,7 +19,7 @@ class ProductScreen extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ProductImage(),
+                ProductImage(url: productService.selectedProduct.picture),
                 Positioned(
                     top: 60,
                     left: 20,
