@@ -31,6 +31,8 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -64,8 +66,10 @@ class _ProductScreenBody extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save_outlined),
-        onPressed: () {
+        onPressed: () async {
           //TODO: Guardar producto
+          if ( !productForm.isValidForm()) return;
+          await productService.saveOrCreateProduct(productForm.product);
         },
       ),
     );
@@ -84,46 +88,49 @@ class _ProductForm extends StatelessWidget {
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
+            key: productForm.formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
-          children: [
-            SizedBox(height: 10),
-            TextFormField(
-              initialValue: product.name,
-              onChanged: (value) => product.name = value,
-              validator: (value) {
-                if (value == null || value.length < 1)
-                  return 'El nombre es obligatorio';
-              },
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: 'Nombre el producto', labelText: 'Nombre:'),
-            ),
-            SizedBox(height: 30),
-            TextFormField(
-              initialValue: '${product.price}',
-              inputFormatters: [
-                //expresion reguar para validar que le precio tenga solo numeros y dos decimales caximo, debe llevar punto como separador de decimales.
-                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+              children: [
+                SizedBox(height: 10),
+                TextFormField(
+                  initialValue: product.name,
+                  onChanged: (value) => product.name = value,
+                  validator: (value) {
+                    if (value == null || value.length < 1)
+                      return 'El nombre es obligatorio';
+                  },
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: 'Nombre el producto', labelText: 'Nombre:'),
+                ),
+                SizedBox(height: 30),
+                TextFormField(
+                  initialValue: '${product.price}',
+                  inputFormatters: [
+                    //expresion reguar para validar que le precio tenga solo numeros y dos decimales caximo, debe llevar punto como separador de decimales.
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,2}'))
+                  ],
+                  onChanged: (value) {
+                    if (double.tryParse(value) == null) {
+                      product.price = 0;
+                    } else {
+                      product.price = double.parse(value);
+                    }
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: '\$150', labelText: 'Precio:'),
+                ),
+                SizedBox(height: 30),
+                SwitchListTile.adaptive(
+                    value: product.available,
+                    title: Text('Disponible'),
+                    activeColor: Colors.indigo,
+                    onChanged: productForm.updateAvailability),
+                SizedBox(height: 30),
               ],
-              onChanged: (value) {
-                if (double.tryParse(value) == null) {
-                  product.price = 0;
-                } else {
-                  product.price = double.parse(value);
-                }
-              },
-              keyboardType: TextInputType.number,
-              decoration: InputDecorations.authInputDecoration(
-                  hintText: '\$150', labelText: 'Precio:'),
-            ),
-            SizedBox(height: 30),
-            SwitchListTile.adaptive(
-                value: product.available,
-                title: Text('Disponible'),
-                activeColor: Colors.indigo,
-                onChanged: productForm.updateAvailability),
-            SizedBox(height: 30),
-          ],
-        )),
+            )),
       ),
     );
   }
