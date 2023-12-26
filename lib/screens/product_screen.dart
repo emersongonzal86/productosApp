@@ -90,9 +90,9 @@ class _ProductForm extends StatelessWidget {
             TextFormField(
               initialValue: product.name,
               onChanged: (value) => product.name = value,
-              validator: ( value ){
-                if( value == null || value.length < 1)
-                return 'El nombre es obligatorio';
+              validator: (value) {
+                if (value == null || value.length < 1)
+                  return 'El nombre es obligatorio';
               },
               decoration: InputDecorations.authInputDecoration(
                   hintText: 'Nombre el producto', labelText: 'Nombre:'),
@@ -101,12 +101,13 @@ class _ProductForm extends StatelessWidget {
             TextFormField(
               initialValue: '${product.price}',
               inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+                //expresion reguar para validar que le precio tenga solo numeros y dos decimales caximo, debe llevar punto como separador de decimales.
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
               ],
-              onChanged: (value){
-                if(double.tryParse(value) == null){
-                  product.price = 0; 
-                } else{
+              onChanged: (value) {
+                if (double.tryParse(value) == null) {
+                  product.price = 0;
+                } else {
                   product.price = double.parse(value);
                 }
               },
@@ -119,8 +120,7 @@ class _ProductForm extends StatelessWidget {
                 value: product.available,
                 title: Text('Disponible'),
                 activeColor: Colors.indigo,
-                onChanged: productForm.updateAvailability
-                ),
+                onChanged: productForm.updateAvailability),
             SizedBox(height: 30),
           ],
         )),
