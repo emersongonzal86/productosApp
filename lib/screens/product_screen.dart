@@ -59,7 +59,7 @@ class _ProductScreenBody extends StatelessWidget {
               ],
             ),
             _ProductForm(),
-            SizedBox(height: 100),
+            SizedBox(height: 95),
           ],
         ),
       ),
@@ -67,8 +67,8 @@ class _ProductScreenBody extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save_outlined),
         onPressed: () async {
-          //TODO: Guardar producto
-          if ( !productForm.isValidForm()) return;
+          //Guardar producto
+          if (!productForm.isValidForm()) return;
           await productService.saveOrCreateProduct(productForm.product);
         },
       ),
