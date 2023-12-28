@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           productsService.selectedProduct =
               new Product(available: false, name: '', price: 0);
-          Navigator.pushNamed(context, 'product');
+              Navigator.pushNamed(context, 'product');
         },
       ),
     );
