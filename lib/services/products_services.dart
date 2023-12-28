@@ -47,37 +47,41 @@ class ProductsService extends ChangeNotifier {
 
     if (product.id == null) {
       //es necesario crear
-      await this.createProduct( product );
-
+      await this.createProduct(product);
     } else {
       //actualizar
-      await this.UpdateProduct(product);
+      await this.updateProduct(product);
     }
 
     isSaving = false;
     notifyListeners();
   }
 
-  Future<String> UpdateProduct(Product product) async {
+  Future<String> updateProduct(Product product) async {
     final url = Uri.https(_baseUrl, 'products/${product.id}.json');
     final resp = await http.put(url, body: product.toJson());
-    //lo convertimos en un mapa
-    final decodedData = json.decode(resp.body);
+    final decodedData = resp.body;
+    //print( decodedData );
 
-//como el producto nuevo no tiene id debemos traerlo de la base de datos mediante el decodedData
-   product.id = decodedData['name'];
-   this.products.add(product);
+    //Actualizar el listado de productos
+    final index =
+        this.products.indexWhere((element) => element.id == product.id);
+    this.products[index] = product;
 
     return product.id!;
   }
 
-
   Future<String> createProduct(Product product) async {
     final url = Uri.https(_baseUrl, 'products.json');
     final resp = await http.post(url, body: product.toJson());
-    final decodedData = resp.body;
+    //final decodedData = resp.body;
+    //print( decodedData );
+    //lo convertimos en un mapa
+    final decodedData = json.decode(resp.body);
 
-    
+//como el producto nuevo no tiene id debemos traerlo de la base de datos mediante el decodedData
+    product.id = decodedData['name'];
+    this.products.add(product);
 
     return product.id!;
   }

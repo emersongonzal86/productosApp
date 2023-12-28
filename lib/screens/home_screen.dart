@@ -30,7 +30,9 @@ class HomeScreen extends StatelessWidget {
               },
               child: ProductCard(
                 product: productsService.products[index],
-              ))),
+              )
+              )
+              ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
