@@ -101,7 +101,7 @@ class ProductsService extends ChangeNotifier {
     notifyListeners();
 
     final url = Uri.parse(
-        'https://res.cloudinary.com/dru7uu37v/image/upload/v1703645915/lukkx8x4ius501dlbsyy.png');
+        'https://api.cloudinary.com/v1_1/dru7uu37v/image/upload?upload_preset=pruebaflutter');
 
     final imageUploadRequest = http.MultipartRequest('POST', url);
 
@@ -113,16 +113,16 @@ class ProductsService extends ChangeNotifier {
     final streamResponse = await imageUploadRequest.send();
     final resp = await http.Response.fromStream(streamResponse);
 
-    if( resp.statusCode != 200 && resp.statusCode != 201 ){
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
       print('Algo salio mal');
-      print( resp.body );
+      print(resp.body);
       return null;
     }
 
     this.newPictureFile = null;
 
-    final decodedData = json.decode( resp.body );
+    final decodedData = json.decode(resp.body);
 
-   return decodedData['secure_url'];
+    return decodedData['secure_url'];
   }
 }

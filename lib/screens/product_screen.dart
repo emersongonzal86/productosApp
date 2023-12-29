@@ -54,7 +54,7 @@ class _ProductScreenBody extends StatelessWidget {
                     right: 20,
                     child: IconButton(
                         onPressed: () async {
-                          //TODO: Acceder a la camara o galeria
+                          // Acceder a la camara o galeria
 
                           final picker = new ImagePicker();
                           final XFile? pickedFile = await picker.pickImage(
