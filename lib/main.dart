@@ -5,23 +5,19 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(const AppState());
-
-  
 }
+
 class AppState extends StatelessWidget {
   const AppState({super.key});
 
-   
-  
-    @override
-    Widget build(BuildContext context) {
-      return MultiProvider(providers: [
-        ChangeNotifierProvider(create: ( _ ) => ProductsService())
-      ],
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ProductsService())],
       child: const MainApp(),
-      );
-    }
+    );
   }
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -31,7 +27,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Productos App',
-      initialRoute: 'home',
+      initialRoute: 'login',
       routes: {
         'login': (_) => LoginScreen(),
         'home': (_) => HomeScreen(),
