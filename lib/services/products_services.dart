@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:productos_app/models/models.dart';
@@ -9,6 +10,7 @@ class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-varios-a20a2-default-rtdb.firebaseio.com';
   final List<Product> products = [];
   late Product selectedProduct;
+  File? newPictureFile;
   //para saber si esta cargando los datos inicia en true porque inicia cargando datos
   //no se coloca final por que va esta variando entre true y false
   bool isLoading = true;
@@ -85,4 +87,14 @@ class ProductsService extends ChangeNotifier {
 
     return product.id!;
   }
+
+
+  void updateSelectedProductImage( String path ){
+
+    this.selectedProduct.picture = path;
+    this.newPictureFile = File.fromUri(Uri(path: path));
+    notifyListeners();
+
+  }
+
 }
