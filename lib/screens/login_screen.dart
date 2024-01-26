@@ -39,7 +39,7 @@ class LoginScreen extends StatelessWidget {
               shape: MaterialStateProperty.all(StadiumBorder())),
           child: Text(
             'Crear nueva cuenta',
-            style: TextStyle(fontSize: 18,  color:Colors.black87),
+            style: TextStyle(fontSize: 18, color: Colors.black87),
           ),
         ),
         SizedBox(height: 50),
@@ -116,7 +116,7 @@ class _LoginForm extends StatelessWidget {
                   ? null
                   : () async {
                       //oculta el teclado
-                    FocusScope.of(context).unfocus();
+                      FocusScope.of(context).unfocus();
                       final authService =
                           Provider.of<AuthService>(context, listen: false);
 
@@ -136,7 +136,9 @@ class _LoginForm extends StatelessWidget {
                       } else {
                         //TODO: Mostrar error en pantalla
 
-                        print(errorMessage);
+                        //print(errorMessage);
+                        NotificationsService.showSnackbar(errorMessage);
+
                         loginForm.isLoading = false;
                       }
                     },
